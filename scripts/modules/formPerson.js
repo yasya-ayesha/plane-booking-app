@@ -4,6 +4,7 @@ const createFormPerson = (index) => {
   const form = createElement('form', {
     className: 'person'
   });
+  
   const title = createElement('h2', {
     className: 'person__title',
     textContent: `Пассажир #${index+1}`
@@ -52,6 +53,7 @@ const createFormPerson = (index) => {
     type: 'submit',
     textContent: 'Подтвердить'
   })
+
   form.append(title, fieldName, fieldTicket, button);
 
   return form;
