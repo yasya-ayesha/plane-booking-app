@@ -16,7 +16,7 @@ const createFormPerson = (index) => {
   const labelName = createElement('label', {
     className: 'field__label',
     textContent: 'ФИО',
-    for: `name${index}`
+    htmlFor: `name${index}`
   });
   const fieldInput = createElement('input', {
     className: 'field__input',
@@ -34,7 +34,7 @@ const createFormPerson = (index) => {
   const labelTicket = createElement('label', {
     className: 'field__label',
     textContent: 'Номер билета (10 цифр)',
-    for: `ticket${index}`
+    htmlFor: `ticket${index}`
   });
   const inputTicket = createElement('input', {
     className: 'field__input',
