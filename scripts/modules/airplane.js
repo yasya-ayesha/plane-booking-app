@@ -11,6 +11,7 @@ const createCockpit = (title) => {
   });
   const button = createElement('button', {
     className: 'cockpit-confirm',
+    name: 'send',
     type: 'submit',
     textContent: 'Подтвердить',
     disabled: true
@@ -94,18 +95,18 @@ const checkSeat = (form, data, main, id, booked) => {
   form.addEventListener('change', () => {
     const formData = new FormData(form);
     const checked = [...formData].map(([, value]) => value);
-    const okBtn = document.querySelector('.cockpit-confirm');
+
+    form.send.disabled = checked.length !== data.length;
+
     if (checked.length === data.length) {
-      okBtn.disabled = false;
       [...form].forEach(item => {
         if (!item.checked && item.name === 'seat') {
           item.disabled = true;
         }
       });
     } else {
-      okBtn.disabled = true;
       [...form].forEach(item => {
-        if (!booked.includes(item.value)) {
+        if (!booked.includes(item.value) && item.name === 'seat') {
           item.disabled = false;
         }
       });
@@ -134,7 +135,7 @@ const checkSeat = (form, data, main, id, booked) => {
   });
 };
 
-const airplane = (main, data, tourData) => {
+const airplane = async (main, data, tourData) => {
   let title = '';
   if (data.length === 1) {
     title = 'Выберите 1 место';
@@ -143,7 +144,9 @@ const airplane = (main, data, tourData) => {
   } else {
     title = `Выберите ${data.length} мест`;
   }
-  const bookingSeat = getStorage(tourData.id).map(item => item.seat);
+  const dataResponse = await getStorage(tourData.id);
+  const bookingSeat = dataResponse.map(item => item.seat);
+
   const choiceForm = createAirplane(title, tourData, bookingSeat);
   main.append(choiceForm);
   checkSeat(choiceForm, data, main, tourData.id, bookingSeat);
